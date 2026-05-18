@@ -162,14 +162,12 @@
     /* ─── STICKY NAV ─── */
     .snav {
       background: var(--card); border-bottom: 2px solid var(--line);
-      padding: 0 48px; position: sticky; top: 0; z-index: 200;
+      padding: 10px 48px; position: sticky; top: 0; z-index: 200;
     }
     .snav-row {
       max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; gap: 4px;
-      overflow-x: auto; scrollbar-width: none; padding: 10px 0;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
     }
-    .snav-row::-webkit-scrollbar { display: none; }
     .snp {
       font-family: 'Space Mono', monospace;
       font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
