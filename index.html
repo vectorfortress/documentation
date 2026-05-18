@@ -3,33 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Construction Progress — Live Site Journal</title>
+  <title>Construction Progress — Site Journal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     :root {
-      --sun:    #ff9500;
-      --sun2:   #ffcf60;
-      --sky:    #0099ff;
-      --sky2:   #66ccff;
-      --mint:   #00c896;
-      --mint2:  #7fffd4;
-      --berry:  #8b5cf6;
+      --s1:  #ff9500; /* Stage 1 — orange  */
+      --s2:  #0099ff; /* Stage 2 — blue    */
+      --s3:  #00c896; /* Stage 3 — teal    */
+      --s46: #8b5cf6; /* Stage 4–6 — violet*/
       --coral:  #ff5c7a;
-      --ink:    #0e1117;
-      --body:   #2d3340;
-      --muted:  #6b7385;
-      --line:   #e4e8f0;
-      --bg:     #f5f7fc;
-      --white:  #ffffff;
+      --ink:    #0d1117;
+      --body:   #2a3140;
+      --muted:  #68748a;
+      --faint:  #b0bad0;
+      --line:   #e3e8f2;
+      --bg:     #f4f7fd;
+      --card:   #ffffff;
       --r:      10px;
       --rlg:    18px;
-      --rxl:    26px;
+      --rxl:    24px;
     }
 
     body {
@@ -40,1025 +37,875 @@
       overflow-x: hidden;
     }
 
-    /* ══ HERO BANNER ══ */
+    /* ─── RAINBOW TOP BAND ─── */
+    .top-band {
+      height: 6px;
+      background: linear-gradient(90deg,
+        var(--s1)  0%   25%,
+        var(--s2)  25%  50%,
+        var(--s3)  50%  75%,
+        var(--s46) 75%  100%
+      );
+    }
+
+    /* ─── HERO ─── */
     .hero {
-      background: var(--white);
+      background: var(--card);
       border-bottom: 2px solid var(--line);
-      padding: 0 40px 0;
+      padding: 0 48px;
       position: relative;
       overflow: hidden;
     }
-
-    .hero-confetti {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
+    .hero-orbs {
+      position: absolute; inset: 0;
+      pointer-events: none; overflow: hidden;
     }
-
-    .hero-confetti span {
+    .hero-orbs i {
       position: absolute;
-      border-radius: 3px;
-      opacity: 0.18;
+      border-radius: 50%;
+      opacity: 0.13;
     }
-
-    .hero-confetti span:nth-child(1)  { width:260px;height:260px; background:var(--sun);   top:-80px;  right:120px; border-radius:50%; }
-    .hero-confetti span:nth-child(2)  { width:180px;height:180px; background:var(--sky);   top:20px;   right:30px;  border-radius:50%; }
-    .hero-confetti span:nth-child(3)  { width:120px;height:120px; background:var(--mint);  bottom:-30px; right:260px; border-radius:50%; }
-    .hero-confetti span:nth-child(4)  { width:80px; height:80px;  background:var(--berry); top:40px;   left:-20px;  border-radius:50%; }
-    .hero-confetti span:nth-child(5)  { width:40px; height:40px;  background:var(--coral); bottom:30px; left:180px; border-radius:50%; }
-
+    .hero-orbs i:nth-child(1) { width:300px;height:300px; background:var(--s1);  top:-100px; right:80px; }
+    .hero-orbs i:nth-child(2) { width:200px;height:200px; background:var(--s2);  top:30px;   right:-30px; }
+    .hero-orbs i:nth-child(3) { width:140px;height:140px; background:var(--s3);  bottom:-40px; right:300px; }
+    .hero-orbs i:nth-child(4) { width:90px; height:90px;  background:var(--s46); top:50px;   left:-20px; }
     .hero-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 64px 0 56px;
-      position: relative;
-      z-index: 1;
+      max-width: 1200px; margin: 0 auto;
+      padding: 62px 0 52px;
+      position: relative; z-index: 1;
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--sky);
-      background: #e8f4ff;
-      border: 1.5px solid #b3d9ff;
-      border-radius: 999px;
-      padding: 6px 14px;
-      margin-bottom: 22px;
+      font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--s2); background: #e6f3ff; border: 1.5px solid #b3d9ff;
+      border-radius: 999px; padding: 6px 14px; margin-bottom: 20px;
     }
-
     .eyebrow-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--sky);
-      animation: pulse 1.8s ease-in-out infinite;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--s2);
+      animation: pulseRing 1.9s ease-in-out infinite;
     }
-
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(0,153,255,0.5); }
-      50%      { box-shadow: 0 0 0 7px rgba(0,153,255,0); }
+    @keyframes pulseRing {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,153,255,.5); }
+      55%     { box-shadow: 0 0 0 7px rgba(0,153,255,0); }
     }
 
     .hero h1 {
-      font-size: clamp(2.6rem, 5vw, 4.4rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 0.95;
-      color: var(--ink);
-      margin-bottom: 22px;
+      font-size: clamp(2.6rem, 5vw, 4.6rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 0.94;
+      color: var(--ink); margin-bottom: 22px;
     }
-
-    .hero h1 .accent-sun    { color: var(--sun); }
-    .hero h1 .accent-sky    { color: var(--sky); }
-    .hero h1 .accent-mint   { color: var(--mint); }
+    .c1 { color: var(--s1); }
+    .c2 { color: var(--s2); }
+    .c3 { color: var(--s3); }
 
     .hero-desc {
-      font-size: 1.05rem;
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 640px;
-      margin-bottom: 36px;
+      font-size: 1.04rem; color: var(--muted); line-height: 1.82;
+      max-width: 620px; margin-bottom: 36px;
     }
 
-    /* ══ STAT CARDS ══ */
-    .stats-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+    /* stat pills */
+    .stats {
+      display: flex; flex-wrap: wrap; gap: 10px;
     }
-
-    .stat-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 20px;
-      border-radius: var(--rlg);
-      border: 1.5px solid var(--line);
-      background: var(--white);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    .stat {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 18px; border-radius: var(--rlg);
+      border: 1.5px solid var(--line); background: var(--card);
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
     }
-
-    .stat-icon {
-      width: 42px; height: 42px;
-      border-radius: var(--r);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+    .stat-ico {
+      width: 40px; height: 40px; border-radius: var(--r);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
     }
+    .stat:nth-child(1) .stat-ico { background:#fff3e0; }
+    .stat:nth-child(2) .stat-ico { background:#e0f0ff; }
+    .stat:nth-child(3) .stat-ico { background:#e0fff8; }
+    .stat:nth-child(4) .stat-ico { background:#ede8ff; }
+    .stat strong { display:block; font-size:1.45rem; font-weight:800; color:var(--ink); line-height:1; margin-bottom:2px; }
+    .stat span   { font-size:0.8rem; color:var(--muted); }
 
-    .stat-card:nth-child(1) .stat-icon { background: #fff4e0; }
-    .stat-card:nth-child(2) .stat-icon { background: #e0f4ff; }
-    .stat-card:nth-child(3) .stat-icon { background: #e0fff4; }
-    .stat-card:nth-child(4) .stat-icon { background: #f0e8ff; }
-
-    .stat-card strong {
-      display: block;
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1;
-      margin-bottom: 3px;
+    /* ─── PROGRESS BAR ─── */
+    .prog-bar {
+      background: var(--card); border-bottom: 2px solid var(--line); padding: 16px 48px;
     }
-
-    .stat-card span {
-      font-size: 0.82rem;
-      color: var(--muted);
+    .prog-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; gap: 16px;
     }
-
-    /* ══ PROGRESS STRIP ══ */
-    .progress-strip {
-      background: var(--white);
-      border-bottom: 2px solid var(--line);
-      padding: 18px 40px;
-    }
-
-    .progress-strip-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
     .prog-label {
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      white-space: nowrap;
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
     }
-
     .prog-track {
-      flex: 1;
-      height: 10px;
-      border-radius: 999px;
-      background: var(--line);
-      overflow: hidden;
+      flex: 1; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden;
     }
-
     .prog-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--mint), var(--sky), var(--sun));
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--s3), var(--s2), var(--s1));
       background-size: 200% 100%;
-      animation: growFill 1.4s cubic-bezier(0.22,1,0.36,1) forwards, shimmer 3s linear infinite 1.4s;
       width: 0;
+      animation: fillGrow 1.4s cubic-bezier(.22,1,.36,1) forwards, shimmer 3s linear infinite 1.5s;
     }
-
-    @keyframes growFill {
-      to { width: 72%; }
-    }
-
+    @keyframes fillGrow { to { width: 72%; } }
     @keyframes shimmer {
       0%   { background-position: 200% center; }
       100% { background-position: -200% center; }
     }
-
     .prog-pct {
+      font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;
+      color: var(--ink); white-space: nowrap;
+    }
+
+    /* ─── STICKY NAV ─── */
+    .snav {
+      background: var(--card); border-bottom: 2px solid var(--line);
+      padding: 0 48px; position: sticky; top: 0; z-index: 200;
+    }
+    .snav-row {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; gap: 4px;
+      overflow-x: auto; scrollbar-width: none; padding: 10px 0;
+    }
+    .snav-row::-webkit-scrollbar { display: none; }
+    .snp {
       font-family: 'Space Mono', monospace;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--ink);
-      white-space: nowrap;
+      font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); background: var(--bg); border: 1.5px solid var(--line);
+      border-radius: 999px; padding: 7px 15px; white-space: nowrap;
+      text-decoration: none; transition: all .15s; cursor: pointer; flex-shrink: 0;
     }
+    .snp:hover { border-color: var(--s2); color: var(--s2); background: #e6f3ff; }
+    .snp.active { background: var(--s2); border-color: var(--s2); color: #fff; }
+    .snp.s1 { --c: var(--s1); }
+    .snp.s2 { --c: var(--s2); }
+    .snp.s3 { --c: var(--s3); }
+    .snp.s46 { --c: var(--s46); }
+    .snp.s1:hover { border-color:var(--s1); color:var(--s1); background:#fff3e0; }
+    .snp.s2:hover { border-color:var(--s2); color:var(--s2); background:#e6f3ff; }
+    .snp.s3:hover { border-color:var(--s3); color:var(--s3); background:#e0fff8; }
+    .snp.s46:hover{ border-color:var(--s46);color:var(--s46);background:#ede8ff; }
 
-    /* ══ STAGE NAV ══ */
-    .stage-nav {
-      background: var(--white);
-      border-bottom: 2px solid var(--line);
-      padding: 0 40px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* ─── SECTION TITLE ─── */
+    .sec {
+      max-width: 1200px; margin: 0 auto; padding: 52px 48px 24px;
     }
-
-    .stage-nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      padding: 10px 0;
-    }
-
-    .stage-nav-inner::-webkit-scrollbar { display: none; }
-
-    .snav-pill {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: var(--bg);
-      border: 1.5px solid var(--line);
-      border-radius: 999px;
-      padding: 7px 16px;
-      white-space: nowrap;
-      text-decoration: none;
-      transition: all 0.16s;
-      cursor: pointer;
-    }
-
-    .snav-pill:hover { border-color: var(--sky); color: var(--sky); background: #e8f4ff; }
-    .snav-pill.active { background: var(--sky); border-color: var(--sky); color: #fff; }
-
-    /* ══ SECTION HEADER ══ */
     .sec-head {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 52px 40px 22px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 14px;
     }
-
     .sec-head h2 {
       font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--ink);
+      font-weight: 800; letter-spacing: -0.03em; color: var(--ink);
     }
-
-    .sec-head h2 span { color: var(--sky); }
-
     .sec-sub {
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding-bottom: 4px;
+      font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); padding-bottom: 4px;
     }
 
-    /* ══ VIDEO GRID ══ */
-    .video-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 20px;
+    /* ─── VIDEO GRID ─── */
+    .vgrid {
+      max-width: 1200px; margin: 0 auto; padding: 0 48px 8px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;
     }
 
     .vcard {
-      background: var(--white);
-      border: 2px solid var(--line);
-      border-radius: var(--rxl);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: riseUp 0.6s ease forwards;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      background: var(--card); border: 2px solid var(--line);
+      border-radius: var(--rxl); overflow: hidden; display: flex; flex-direction: column;
+      opacity: 0; transform: translateY(22px);
+      animation: rise .6s ease forwards;
+      transition: border-color .2s, box-shadow .2s, transform .22s;
     }
+    .vcard:nth-child(2){animation-delay:.09s}
+    .vcard:nth-child(3){animation-delay:.18s}
+    .vcard:nth-child(4){animation-delay:.08s}
+    .vcard:nth-child(5){animation-delay:.16s}
+    .vcard:nth-child(6){animation-delay:.24s}
+    @keyframes rise { to { opacity:1; transform:translateY(0); } }
 
-    .vcard:nth-child(1) { animation-delay: 0s; }
-    .vcard:nth-child(2) { animation-delay: 0.08s; }
-    .vcard:nth-child(3) { animation-delay: 0.16s; }
-    .vcard:nth-child(4) { animation-delay: 0.06s; }
-    .vcard:nth-child(5) { animation-delay: 0.14s; }
-    .vcard:nth-child(6) { animation-delay: 0.22s; }
+    .vcard[data-s="1"]:hover { border-color:var(--s1);  box-shadow:0 8px 32px rgba(255,149,0,.15); transform:translateY(-4px); }
+    .vcard[data-s="2"]:hover { border-color:var(--s2);  box-shadow:0 8px 32px rgba(0,153,255,.14); transform:translateY(-4px); }
+    .vcard[data-s="3"]:hover { border-color:var(--s3);  box-shadow:0 8px 32px rgba(0,200,150,.14); transform:translateY(-4px); }
+    .vcard[data-s="4"]:hover { border-color:var(--s46); box-shadow:0 8px 32px rgba(139,92,246,.14); transform:translateY(-4px); }
+    .vcard[data-s="5"]:hover { border-color:var(--coral);box-shadow:0 8px 32px rgba(255,92,122,.14);transform:translateY(-4px); }
+    .vcard[data-s="6"]:hover { border-color:#22c55e;    box-shadow:0 8px 32px rgba(34,197,94,.14); transform:translateY(-4px); }
 
-    @keyframes riseUp {
-      to { opacity: 1; transform: translateY(0); }
+    .vmedia {
+      position: relative; aspect-ratio: 16/10; background: #eef0f6; overflow: hidden;
     }
+    .vmedia video { width:100%; height:100%; object-fit:cover; display:block; }
 
-    .vcard:hover {
-      border-color: var(--sun);
-      box-shadow: 0 8px 32px rgba(255,149,0,0.14);
-      transform: translateY(-4px);
-    }
-
-    .vcard-media {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      background: #f0f2f8;
-      overflow: hidden;
-    }
-
-    .vcard-media video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .stage-tag {
-      position: absolute;
-      top: 12px;
-      left: 12px;
+    .vstage {
+      position: absolute; top: 12px; left: 12px;
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 5px 11px;
-      border-radius: 999px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 11px; border-radius: 999px; color: #fff;
+      display: flex; align-items: center; gap: 6px;
     }
+    .vcard[data-s="1"] .vstage { background: var(--s1); }
+    .vcard[data-s="2"] .vstage { background: var(--s2); }
+    .vcard[data-s="3"] .vstage { background: var(--s3); }
+    .vcard[data-s="4"] .vstage { background: var(--s46); }
+    .vcard[data-s="5"] .vstage { background: var(--coral); }
+    .vcard[data-s="6"] .vstage { background: #22c55e; }
 
-    .vcard:nth-child(1) .stage-tag { background: var(--sun); }
-    .vcard:nth-child(2) .stage-tag { background: var(--sky); }
-    .vcard:nth-child(3) .stage-tag { background: var(--mint); }
-    .vcard:nth-child(4) .stage-tag { background: var(--berry); }
-    .vcard:nth-child(5) .stage-tag { background: var(--coral); }
-    .vcard:nth-child(6) .stage-tag { background: #22c55e; }
-
-    .live-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      animation: blink 1.6s ease-in-out infinite;
+    .vdot {
+      width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.9);
+      animation: blink 1.7s ease-in-out infinite;
     }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
 
-    @keyframes blink {
-      0%,100% { opacity: 1; }
-      50%      { opacity: 0.3; }
+    .vbody {
+      padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1;
     }
-
-    .vcard-body {
-      padding: 20px 22px 22px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .vcard-num {
+    .vnum {
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .vtitle {
+      font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 9px;
+    }
+    .vdesc { font-size: 0.88rem; color: var(--muted); line-height: 1.76; flex:1; }
+    .vtags { display:flex; flex-wrap:wrap; gap:6px; margin-top:15px; }
+    .vtag {
+      font-size: 0.73rem; font-weight: 600; padding: 4px 11px;
+      border-radius: 999px; border: 1.5px solid var(--line);
+      color: var(--muted); background: var(--bg);
     }
 
-    .vcard-title {
-      font-size: 1.12rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: 10px;
+    /* ─── PHOTO SECTION ─── */
+    .photo-wrap {
+      background: var(--card);
+      border-top: 2px solid var(--line);
+      padding-bottom: 70px;
+      margin-top: 24px;
     }
 
-    .vcard-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.74;
-      flex: 1;
+    /* stage block inside photos */
+    .stage-block {
+      max-width: 1200px; margin: 0 auto; padding: 0 48px;
+    }
+    .stage-block + .stage-block {
+      border-top: 2px dashed var(--line);
+      margin-top: 10px;
     }
 
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 16px;
+    .stage-label-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 38px 0 20px;
     }
-
-    .tag {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 4px 11px;
-      border-radius: 999px;
-      border: 1.5px solid var(--line);
-      color: var(--muted);
-      background: var(--bg);
-    }
-
-    /* ══ PHOTO SECTION ══ */
-    .photo-section {
-      background: var(--white);
-      padding-bottom: 60px;
-      margin-top: 20px;
-    }
-
-    .photo-note {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px 18px;
+    .stage-badge {
+      display: inline-flex; align-items: center; gap: 8px;
       font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 7px 14px; border-radius: 999px; color: #fff;
+      flex-shrink: 0;
+    }
+    .s1-bg  { background: var(--s1); }
+    .s2-bg  { background: var(--s2); }
+    .s3-bg  { background: var(--s3); }
+    .s46-bg { background: var(--s46); }
+
+    .stage-name {
+      font-size: clamp(1rem, 1.6vw, 1.35rem);
+      font-weight: 800; letter-spacing: -0.02em; color: var(--ink);
+    }
+    .stage-count {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase;
+      margin-left: auto;
     }
 
-    .photo-note::before {
-      content: "";
-      display: inline-block;
-      width: 22px; height: 2px;
-      background: var(--mint);
-      border-radius: 2px;
-    }
-
-    .photo-masonry {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-      columns: 3;
-      column-gap: 18px;
+    /* masonry within each stage */
+    .pmason {
+      columns: 3; column-gap: 16px;
     }
 
     .pcard {
-      break-inside: avoid;
-      margin-bottom: 18px;
-      border-radius: var(--rlg);
-      overflow: hidden;
-      border: 2px solid var(--line);
-      background: var(--white);
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.22s;
-      cursor: pointer;
+      break-inside: avoid; margin-bottom: 16px;
+      border-radius: var(--rlg); overflow: hidden;
+      border: 2px solid var(--line); background: var(--card);
+      transition: border-color .2s, box-shadow .2s, transform .22s; cursor: pointer;
     }
+    .pcard:hover { transform: translateY(-3px); }
 
-    .pcard:hover {
-      box-shadow: 0 8px 28px rgba(0,153,255,0.12);
-      transform: translateY(-3px);
+    /* per-stage hover accents */
+    .stage-block[data-s="1"] .pcard:hover { border-color:var(--s1);  box-shadow:0 8px 26px rgba(255,149,0,.13); }
+    .stage-block[data-s="2"] .pcard:hover { border-color:var(--s2);  box-shadow:0 8px 26px rgba(0,153,255,.12); }
+    .stage-block[data-s="3"] .pcard:hover { border-color:var(--s3);  box-shadow:0 8px 26px rgba(0,200,150,.12); }
+    .stage-block[data-s="46"].pcard:hover { border-color:var(--s46); box-shadow:0 8px 26px rgba(139,92,246,.12); }
+
+    .pimg-wrap { position:relative; overflow:hidden; }
+    .pimg-wrap img {
+      width:100%; display:block;
+      transition: transform .45s ease; background: var(--bg);
     }
+    .pcard:hover .pimg-wrap img { transform: scale(1.06); }
 
-    .pcard:nth-child(3n+1):hover { border-color: var(--sun);   box-shadow: 0 8px 28px rgba(255,149,0,0.13); }
-    .pcard:nth-child(3n+2):hover { border-color: var(--mint);  box-shadow: 0 8px 28px rgba(0,200,150,0.13); }
-    .pcard:nth-child(3n+3):hover { border-color: var(--berry); box-shadow: 0 8px 28px rgba(139,92,246,0.13); }
-
-    .pcard-img-wrap {
-      position: relative;
-      overflow: hidden;
+    .poverlay {
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(13,17,23,.82) 0%, transparent 58%);
+      opacity:0; transition: opacity .26s;
+      display:flex; align-items:flex-end; padding:12px;
     }
+    .pcard:hover .poverlay { opacity:1; }
+    .poverlay p { font-size:.8rem; color:rgba(255,255,255,.92); line-height:1.52; }
 
-    .pcard-img-wrap img {
-      width: 100%;
-      display: block;
-      transition: transform 0.45s ease;
-      background: var(--bg);
-    }
-
-    .pcard:hover .pcard-img-wrap img { transform: scale(1.05); }
-
-    .pcard-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(14,17,23,0.82) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.28s;
-      display: flex;
-      align-items: flex-end;
-      padding: 14px;
-    }
-
-    .pcard:hover .pcard-overlay { opacity: 1; }
-
-    .pcard-overlay p {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.92);
-      line-height: 1.55;
-    }
-
-    .pcard-footer {
-      padding: 10px 14px 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .pfoot {
+      padding: 9px 13px 11px;
+      display:flex; align-items:center; gap:9px;
       border-top: 1.5px solid var(--line);
     }
-
     .pnum {
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #fff;
-      padding: 3px 9px;
-      border-radius: 999px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      font-size: 0.62rem; font-weight: 700; color: #fff;
+      padding: 3px 9px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
     }
+    .stage-block[data-s="1"]  .pnum { background: var(--s1); }
+    .stage-block[data-s="2"]  .pnum { background: var(--s2); }
+    .stage-block[data-s="3"]  .pnum { background: var(--s3); }
+    .stage-block[data-s="46"] .pnum { background: var(--s46); }
 
-    .pcard:nth-child(3n+1) .pnum { background: var(--sun); }
-    .pcard:nth-child(3n+2) .pnum { background: var(--sky); }
-    .pcard:nth-child(3n+3) .pnum { background: var(--mint); }
+    .ptitle { font-size:.8rem; font-weight:700; color:var(--ink); line-height:1.3; }
 
-    .ptitle {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.3;
+    /* connector line between stage blocks */
+    .stage-connector {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 48px;
+      display: flex; align-items: center; gap: 12px;
     }
-
-    /* ══ FOOTER ══ */
-    .site-footer {
-      background: var(--ink);
-      padding: 34px 40px;
-    }
-
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .footer-brand {
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: #fff;
-    }
-
-    .footer-brand span { color: var(--sun2); }
-
-    .footer-chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .footer-chip {
+    .conn-line { flex:1; height:1px; background: var(--line); }
+    .conn-arrow {
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 999px;
-      padding: 5px 13px;
+      font-size: 0.65rem; color: var(--faint);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      display:flex; align-items:center; gap:6px;
+    }
+    .conn-arrow::after { content:"↓"; font-size:.9rem; color:var(--faint); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--ink); padding: 32px 48px;
+    }
+    .footer-inner {
+      max-width:1200px; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:12px;
+    }
+    .footer-brand { font-size:.95rem; font-weight:800; letter-spacing:-.02em; color:#fff; }
+    .footer-brand span { color:#ffcf60; }
+    .footer-chips { display:flex; gap:8px; flex-wrap:wrap; }
+    .fchip {
+      font-family:'Space Mono',monospace; font-size:.62rem; letter-spacing:.08em;
+      text-transform:uppercase; color:rgba(255,255,255,.44);
+      border:1px solid rgba(255,255,255,.1); border-radius:999px; padding:5px 12px;
     }
 
-    /* ══ COLOR BAND TOP ══ */
-    .color-band {
-      height: 5px;
-      background: linear-gradient(90deg,
-        var(--sun) 0%, var(--sun) 20%,
-        var(--coral) 20%, var(--coral) 38%,
-        var(--berry) 38%, var(--berry) 55%,
-        var(--sky) 55%, var(--sky) 74%,
-        var(--mint) 74%, var(--mint) 100%
-      );
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .pmason { columns: 2; }
+      .vgrid  { grid-template-columns: 1fr; }
+      .hero,.snav,.prog-bar,.sec,.vgrid,.stage-block,.stage-connector,.footer { padding-left:22px; padding-right:22px; }
     }
-
-    /* ══ RESPONSIVE ══ */
-    @media (max-width: 900px) {
-      .photo-masonry { columns: 2; }
-      .video-grid    { grid-template-columns: 1fr; }
-      .hero, .stage-nav, .progress-strip { padding-left: 20px; padding-right: 20px; }
-      .sec-head, .video-grid, .photo-masonry, .photo-note { padding-left: 20px; padding-right: 20px; }
-    }
-
     @media (max-width: 560px) {
-      .photo-masonry { columns: 1; }
-      .stats-row     { flex-direction: column; }
-      .footer-inner  { flex-direction: column; align-items: flex-start; }
+      .pmason   { columns: 1; }
+      .stats    { flex-direction: column; }
+      .footer-inner { flex-direction:column; align-items:flex-start; }
+      .stage-label-row { flex-wrap:wrap; }
+      .stage-count { margin-left:0; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="color-band"></div>
+<div class="top-band"></div>
 
-  <!-- ══ HERO ══ -->
-  <header class="hero">
-    <div class="hero-confetti" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="hero-inner">
-      <div class="eyebrow">
-        <span class="eyebrow-dot"></span>
-        Project Progress Dashboard
-      </div>
-      <h1>
-        Building<br>
-        <span class="accent-sun">Progress,</span><br>
-        <span class="accent-sky">Stage</span> <span class="accent-mint">by Stage.</span>
-      </h1>
-      <p class="hero-desc">
-        A visual record of every major construction milestone — from site clearing and foundation work to structural elevation, gate installation, and active finishing phases.
-      </p>
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-icon">🎬</div>
-          <div><strong>6</strong><span>Progress videos</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📸</div>
-          <div><strong>21</strong><span>Site photos</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🏗️</div>
-          <div><strong>6</strong><span>Build stages</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">⚡</div>
-          <div><strong>72%</strong><span>Completion est.</span></div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ══ PROGRESS BAR ══ -->
-  <div class="progress-strip">
-    <div class="progress-strip-inner">
-      <span class="prog-label">Overall progress</span>
-      <div class="prog-track">
-        <div class="prog-fill"></div>
-      </div>
-      <span class="prog-pct">72% complete</span>
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-orbs" aria-hidden="true">
+    <i></i><i></i><i></i><i></i>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="eyebrow-dot"></span>Project Progress Dashboard</div>
+    <h1>
+      Building<br>
+      <span class="c1">Progress,</span><br>
+      <span class="c2">Stage</span> <span class="c3">by Stage.</span>
+    </h1>
+    <p class="hero-desc">
+      A full visual record of every major milestone — from raw earth and foundation trenches to
+      structural elevation, interior finishing, and a completed modern gate. Photos are
+      organized to follow the exact order of construction.
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="stat-ico">🎬</div><div><strong>6</strong><span>Progress videos</span></div></div>
+      <div class="stat"><div class="stat-ico">📸</div><div><strong>21</strong><span>Site photos</span></div></div>
+      <div class="stat"><div class="stat-ico">🏗️</div><div><strong>4</strong><span>Build phases</span></div></div>
+      <div class="stat"><div class="stat-ico">⚡</div><div><strong>72%</strong><span>Completion est.</span></div></div>
     </div>
   </div>
+</header>
 
-  <!-- ══ STAGE NAV ══ -->
-  <nav class="stage-nav" aria-label="Jump to stage">
-    <div class="stage-nav-inner">
-      <a href="#videos"  class="snav-pill active">All stages</a>
-      <a href="#st1"     class="snav-pill">01 · Site Prep</a>
-      <a href="#st2"     class="snav-pill">02 · Foundation</a>
-      <a href="#st3"     class="snav-pill">03 · Structure</a>
-      <a href="#st4"     class="snav-pill">04 · Gate Install</a>
-      <a href="#st5"     class="snav-pill">05 · Gate Check</a>
-      <a href="#st6"     class="snav-pill">06 · Completion</a>
-      <a href="#photos"  class="snav-pill">📸 Photo Archive</a>
-    </div>
-  </nav>
+<!-- ══ PROGRESS BAR ══ -->
+<div class="prog-bar">
+  <div class="prog-inner">
+    <span class="prog-label">Overall progress</span>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+    <span class="prog-pct">72% complete</span>
+  </div>
+</div>
 
-  <!-- ══ VIDEOS ══ -->
-  <div class="sec-head" id="videos">
-    <h2>Progress <span>Videos</span></h2>
+<!-- ══ STICKY NAV ══ -->
+<nav class="snav" aria-label="Jump to section">
+  <div class="snav-row">
+    <a href="#videos"  class="snp active">All videos</a>
+    <a href="#v-st1"   class="snp s1">01 · Site Prep</a>
+    <a href="#v-st2"   class="snp s2">02 · Foundation</a>
+    <a href="#v-st3"   class="snp s3">03 · Structure</a>
+    <a href="#v-st46"  class="snp s46">04–06 · Gate</a>
+    <span style="width:1px;height:22px;background:var(--line);flex-shrink:0;margin:0 4px;"></span>
+    <a href="#photos"  class="snp">📸 Photos by Stage</a>
+    <a href="#ph-s1"   class="snp s1">01 · Site Prep</a>
+    <a href="#ph-s2"   class="snp s2">02 · Foundation</a>
+    <a href="#ph-s3"   class="snp s3">03 · Structure</a>
+    <a href="#ph-s46"  class="snp s46">04–06 · Finishing</a>
+  </div>
+</nav>
+
+<!-- ══ VIDEOS ══ -->
+<div class="sec" id="videos">
+  <div class="sec-head">
+    <h2>Progress <span style="color:var(--s2)">Videos</span></h2>
     <span class="sec-sub">6 recordings · Stage 01–06</span>
   </div>
+</div>
 
-  <div class="video-grid">
+<div class="vgrid">
 
-    <article class="vcard" id="st1">
-      <div class="vcard-media">
-        <video controls preload="metadata" playsinline>
-          <source src="VID-20251012-WA0079.mp4" type="video/mp4" />
-        </video>
-        <div class="stage-tag"><span class="live-dot"></span>Stage 01</div>
+  <article class="vcard" data-s="1" id="v-st1">
+    <div class="vmedia">
+      <video controls preload="metadata" playsinline>
+        <source src="VID-20251012-WA0079.mp4" type="video/mp4" />
+      </video>
+      <div class="vstage"><span class="vdot"></span>Stage 01</div>
+    </div>
+    <div class="vbody">
+      <div class="vnum">Stage 01 of 06</div>
+      <div class="vtitle">Site Preparation</div>
+      <p class="vdesc">Early footage after land clearing and grading. Ground levelled in preparation for layout and foundation work — the visible start of construction on site.</p>
+      <div class="vtags">
+        <span class="vtag">Land clearing</span>
+        <span class="vtag">Ground leveling</span>
+        <span class="vtag">Project kickoff</span>
       </div>
-      <div class="vcard-body">
-        <div class="vcard-num">Stage 01 of 06</div>
-        <div class="vcard-title">Site Preparation</div>
-        <p class="vcard-desc">Early footage after land clearing and grading. Ground levelled in preparation for layout and foundation work — the visible start of construction on site.</p>
-        <div class="tag-row">
-          <span class="tag">Land clearing</span>
-          <span class="tag">Ground leveling</span>
-          <span class="tag">Project kickoff</span>
-        </div>
-      </div>
-    </article>
+    </div>
+  </article>
 
-    <article class="vcard" id="st2">
-      <div class="vcard-media">
-        <video controls preload="metadata" playsinline>
-          <source src="VID-20251012-WA0045.mp4" type="video/mp4" />
-        </video>
-        <div class="stage-tag"><span class="live-dot"></span>Stage 02</div>
+  <article class="vcard" data-s="2" id="v-st2">
+    <div class="vmedia">
+      <video controls preload="metadata" playsinline>
+        <source src="VID-20251012-WA0045.mp4" type="video/mp4" />
+      </video>
+      <div class="vstage"><span class="vdot"></span>Stage 02</div>
+    </div>
+    <div class="vbody">
+      <div class="vnum">Stage 02 of 06</div>
+      <div class="vtitle">Foundation &amp; Block Work</div>
+      <p class="vdesc">Foundation process underway — base structure and block layout taking shape. Building footprint and early room and support boundaries are now visible.</p>
+      <div class="vtags">
+        <span class="vtag">Foundation</span>
+        <span class="vtag">Block work</span>
+        <span class="vtag">Structural layout</span>
       </div>
-      <div class="vcard-body">
-        <div class="vcard-num">Stage 02 of 06</div>
-        <div class="vcard-title">Foundation &amp; Block Work</div>
-        <p class="vcard-desc">Foundation process underway — base structure and block layout taking shape. Building footprint and early room and support boundaries are now visible.</p>
-        <div class="tag-row">
-          <span class="tag">Foundation</span>
-          <span class="tag">Block work</span>
-          <span class="tag">Structural layout</span>
-        </div>
-      </div>
-    </article>
+    </div>
+  </article>
 
-    <article class="vcard" id="st3">
-      <div class="vcard-media">
-        <video controls preload="metadata" playsinline>
-          <source src="VID-20251012-WA0055.mp4" type="video/mp4" />
-        </video>
-        <div class="stage-tag"><span class="live-dot"></span>Stage 03</div>
+  <article class="vcard" data-s="3" id="v-st3">
+    <div class="vmedia">
+      <video controls preload="metadata" playsinline>
+        <source src="VID-20251012-WA0055.mp4" type="video/mp4" />
+      </video>
+      <div class="vstage"><span class="vdot"></span>Stage 03</div>
+    </div>
+    <div class="vbody">
+      <div class="vnum">Stage 03 of 06</div>
+      <div class="vtitle">Structural Elevation &amp; Roofing</div>
+      <p class="vdesc">Exterior walls are up and the roof structure is in place — a major jump from groundwork to a clearly visible building form approaching the finishing phase.</p>
+      <div class="vtags">
+        <span class="vtag">Wall elevation</span>
+        <span class="vtag">Roof structure</span>
+        <span class="vtag">Major milestone</span>
       </div>
-      <div class="vcard-body">
-        <div class="vcard-num">Stage 03 of 06</div>
-        <div class="vcard-title">Structural Elevation &amp; Roofing</div>
-        <p class="vcard-desc">Exterior walls are up and the roof structure is in place — a major jump from groundwork to a clearly visible building form approaching the finishing phase.</p>
-        <div class="tag-row">
-          <span class="tag">Wall elevation</span>
-          <span class="tag">Roof structure</span>
-          <span class="tag">Major milestone</span>
-        </div>
-      </div>
-    </article>
+    </div>
+  </article>
 
-    <article class="vcard" id="st4">
-      <div class="vcard-media">
-        <video controls preload="metadata" playsinline>
-          <source src="VID-20260327-WA0007.mp4" type="video/mp4" />
-        </video>
-        <div class="stage-tag"><span class="live-dot"></span>Stage 04</div>
+  <article class="vcard" data-s="4" id="v-st46">
+    <div class="vmedia">
+      <video controls preload="metadata" playsinline>
+        <source src="VID-20260327-WA0007.mp4" type="video/mp4" />
+      </video>
+      <div class="vstage"><span class="vdot"></span>Stage 04</div>
+    </div>
+    <div class="vbody">
+      <div class="vnum">Stage 04 of 06</div>
+      <div class="vtitle">Gate Installation Progress</div>
+      <p class="vdesc">Installation of the main compound gate — alignment, fitting, and structural adjustments shown as the entrance system is put into position.</p>
+      <div class="vtags">
+        <span class="vtag">Metal works</span>
+        <span class="vtag">Installation</span>
+        <span class="vtag">Exterior upgrade</span>
       </div>
-      <div class="vcard-body">
-        <div class="vcard-num">Stage 04 of 06</div>
-        <div class="vcard-title">Gate Installation Progress</div>
-        <p class="vcard-desc">Installation of the main compound gate — alignment, fitting, and structural adjustments shown as the entrance system is put into position.</p>
-        <div class="tag-row">
-          <span class="tag">Metal works</span>
-          <span class="tag">Installation</span>
-          <span class="tag">Exterior upgrade</span>
-        </div>
-      </div>
-    </article>
+    </div>
+  </article>
 
-    <article class="vcard" id="st5">
-      <div class="vcard-media">
-        <video controls preload="metadata" playsinline>
-          <source src="VID-20260327-WA0008.mp4" type="video/mp4" />
-        </video>
-        <div class="stage-tag"><span class="live-dot"></span>Stage 05</div>
+  <article class="vcard" data-s="5">
+    <div class="vmedia">
+      <video controls preload="metadata" playsinline>
+        <source src="VID-20260327-WA0008.mp4" type="video/mp4" />
+      </video>
+      <div class="vstage"><span class="vdot"></span>Stage 05</div>
+    </div>
+    <div class="vbody">
+      <div class="vnum">Stage 05 of 06</div>
+      <div class="vtitle">Gate Functionality Check</div>
+      <p class="vdesc">Movement and operation demonstrated — confirming proper alignment, smooth swing, and overall structural stability before sign-off.</p>
+      <div class="vtags">
+        <span class="vtag">Testing</span>
+        <span class="vtag">Functionality</span>
+        <span class="vtag">Quality check</span>
       </div>
-      <div class="vcard-body">
-        <div class="vcard-num">Stage 05 of 06</div>
-        <div class="vcard-title">Gate Functionality Check</div>
-        <p class="vcard-desc">Movement and operation demonstrated — confirming proper alignment, smooth swing, and overall structural stability before sign-off.</p>
-        <div class="tag-row">
-          <span class="tag">Testing</span>
-          <span class="tag">Functionality</span>
-          <span class="tag">Quality check</span>
-        </div>
-      </div>
-    </article>
+    </div>
+  </article>
 
-    <article class="vcard" id="st6">
-      <div class="vcard-media">
-        <video controls preload="metadata" playsinline>
-          <source src="VID-20260327-WA0012.mp4" type="video/mp4" />
-        </video>
-        <div class="stage-tag"><span class="live-dot"></span>Stage 06</div>
+  <article class="vcard" data-s="6">
+    <div class="vmedia">
+      <video controls preload="metadata" playsinline>
+        <source src="VID-20260327-WA0012.mp4" type="video/mp4" />
+      </video>
+      <div class="vstage"><span class="vdot"></span>Stage 06</div>
+    </div>
+    <div class="vbody">
+      <div class="vnum">Stage 06 of 06</div>
+      <div class="vtitle">Completed Gate Installation</div>
+      <p class="vdesc">Final gate video with the finished entrance system — reinforcing both the security and modern aesthetic of the property frontage.</p>
+      <div class="vtags">
+        <span class="vtag">Final stage</span>
+        <span class="vtag">Security</span>
+        <span class="vtag">Finishing</span>
       </div>
-      <div class="vcard-body">
-        <div class="vcard-num">Stage 06 of 06</div>
-        <div class="vcard-title">Completed Gate Installation</div>
-        <p class="vcard-desc">Final gate video with the finished entrance system — reinforcing both the security and modern aesthetic of the property frontage.</p>
-        <div class="tag-row">
-          <span class="tag">Final stage</span>
-          <span class="tag">Security</span>
-          <span class="tag">Finishing</span>
-        </div>
-      </div>
-    </article>
+    </div>
+  </article>
 
+</div><!-- /vgrid -->
+
+<!-- ══ PHOTO SECTION ══ -->
+<div class="photo-wrap" id="photos">
+
+  <div class="sec" style="padding-bottom:8px;">
+    <div class="sec-head">
+      <h2>Photos <span style="color:var(--s3)">by Stage</span></h2>
+      <span class="sec-sub">21 images · Follows build sequence</span>
+    </div>
   </div>
 
-  <!-- ══ PHOTOS ══ -->
-  <div class="photo-section" id="photos">
-    <div class="sec-head">
-      <h2>Site <span>Photo</span> Archive</h2>
-      <span class="sec-sub">21 images · Earliest → current</span>
+  <!-- ── STAGE 01 ── -->
+  <div class="stage-block" data-s="1" id="ph-s1">
+    <div class="stage-label-row">
+      <div class="stage-badge s1-bg">● Stage 01</div>
+      <div class="stage-name">Site Preparation</div>
+      <div class="stage-count">1 photo</div>
     </div>
-    <div class="photo-note">Arranged chronologically from earliest construction phase to most recent</div>
-
-    <div class="photo-masonry">
+    <div class="pmason">
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_08.jpg" alt="Site Grading and Earthwork" loading="lazy" />
-          <div class="pcard-overlay"><p>Land cleared and leveled to prepare for access, drainage, and future external works.</p></div>
+          <div class="poverlay"><p>Land cleared and leveled to prepare the area for access, drainage, and future external works.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">01</span>
+        <div class="pfoot">
+          <span class="pnum">S01·A</span>
           <span class="ptitle">Site Grading &amp; Earthwork</span>
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="stage-connector">
+    <div class="conn-line"></div>
+    <div class="conn-arrow">Next phase</div>
+    <div class="conn-line"></div>
+  </div>
+
+  <!-- ── STAGE 02 ── -->
+  <div class="stage-block" data-s="2" id="ph-s2">
+    <div class="stage-label-row">
+      <div class="stage-badge s2-bg">● Stage 02</div>
+      <div class="stage-name">Foundation &amp; Block Work</div>
+      <div class="stage-count">5 photos</div>
+    </div>
+    <div class="pmason">
+
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_11.jpg" alt="Foundation Trench Excavation" loading="lazy" />
-          <div class="pcard-overlay"><p>Workers excavating foundation trenches — establishing the load-bearing base of the structure.</p></div>
+          <div class="poverlay"><p>Workers excavating foundation trenches — establishing the load-bearing base of the structure.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">02</span>
+        <div class="pfoot">
+          <span class="pnum">S02·A</span>
           <span class="ptitle">Foundation Trench Excavation</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_12.jpg" alt="Boundary Wall Construction" loading="lazy" />
-          <div class="pcard-overlay"><p>Compound wall built around the property for enclosure, security, and site definition.</p></div>
+          <div class="poverlay"><p>Compound wall built around the property for enclosure, security, and site definition.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">03</span>
+        <div class="pfoot">
+          <span class="pnum">S02·B</span>
           <span class="ptitle">Boundary Wall Construction</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_05.jpg" alt="Column and Wall Formation" loading="lazy" />
-          <div class="pcard-overlay"><p>Concrete columns and block walls developed together, defining room layout and strengthening the frame.</p></div>
+          <div class="poverlay"><p>Concrete columns and block walls developed together, defining room layout and strengthening the structural frame.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">04</span>
+        <div class="pfoot">
+          <span class="pnum">S02·C</span>
           <span class="ptitle">Column &amp; Wall Formation</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
-          <img src="ghana_project_imagesphoto_04.jpg" alt="Beam and Slab Support Stage" loading="lazy" />
-          <div class="pcard-overlay"><p>Timber supports hold formwork in place as the reinforced beam and upper slab are prepared and cured.</p></div>
+        <div class="pimg-wrap">
+          <img src="ghana_project_imagesphoto_04.jpg" alt="Beam and Slab Support" loading="lazy" />
+          <div class="poverlay"><p>Timber supports hold formwork in place as the reinforced beam and upper slab are prepared and cured.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">05</span>
-          <span class="ptitle">Beam &amp; Slab Support Stage</span>
+        <div class="pfoot">
+          <span class="pnum">S02·D</span>
+          <span class="ptitle">Beam &amp; Slab Support</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_06.jpg" alt="Perimeter Structural Framing" loading="lazy" />
-          <div class="pcard-overlay"><p>Extensive timber support under the slab edge — active progress on the reinforced upper structure.</p></div>
+          <div class="poverlay"><p>Extensive timber support under the slab edge — active progress on the reinforced upper structure.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">06</span>
+        <div class="pfoot">
+          <span class="pnum">S02·E</span>
           <span class="ptitle">Perimeter Structural Framing</span>
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="stage-connector">
+    <div class="conn-line"></div>
+    <div class="conn-arrow">Next phase</div>
+    <div class="conn-line"></div>
+  </div>
+
+  <!-- ── STAGE 03 ── -->
+  <div class="stage-block" data-s="3" id="ph-s3">
+    <div class="stage-label-row">
+      <div class="stage-badge s3-bg">● Stage 03</div>
+      <div class="stage-name">Structural Elevation &amp; Roofing</div>
+      <div class="stage-count">11 photos</div>
+    </div>
+    <div class="pmason">
+
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_07.jpg" alt="Upper Wall Extension" loading="lazy" />
-          <div class="pcard-overlay"><p>Workers lifting wall height from interior — progress toward full enclosure of the upper level.</p></div>
+          <div class="poverlay"><p>Workers lifting wall height from interior — progress toward full enclosure of the upper level.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">07</span>
+        <div class="pfoot">
+          <span class="pnum">S03·A</span>
           <span class="ptitle">Upper Wall Extension</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="IMG-20250721-WA0002.jpg" alt="Roof Truss Framing Close-Up" loading="lazy" />
-          <div class="pcard-overlay"><p>Close-up of the timber roof truss system — scale and geometry before final roof covering.</p></div>
+          <div class="poverlay"><p>Close-up of the timber roof truss system — scale and geometry of the framing before final covering.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">08</span>
+        <div class="pfoot">
+          <span class="pnum">S03·B</span>
           <span class="ptitle">Roof Truss Framing</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="IMG-20250721-WA0008.jpg" alt="Long-Distance Roofline View" loading="lazy" />
-          <div class="pcard-overlay"><p>Roof structure emerging above vegetation — the building's presence within the wider landscape.</p></div>
+          <div class="poverlay"><p>Roof structure emerging above vegetation — the building's presence within the wider landscape.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">09</span>
+        <div class="pfoot">
+          <span class="pnum">S03·C</span>
           <span class="ptitle">Long-Distance Roofline</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
-          <img src="IMG-20250721-WA0000.jpg" alt="Exterior View with Boundary Wall" loading="lazy" />
-          <div class="pcard-overlay"><p>Main building rising behind the compound wall, roof framing installed, surrounded by natural vegetation.</p></div>
+        <div class="pimg-wrap">
+          <img src="IMG-20250721-WA0000.jpg" alt="Exterior with Boundary Wall" loading="lazy" />
+          <div class="poverlay"><p>Main building rising behind the compound wall, roof framing installed, surrounded by natural vegetation.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">10</span>
+        <div class="pfoot">
+          <span class="pnum">S03·D</span>
           <span class="ptitle">Exterior with Boundary Wall</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="IMG-20250721-WA0005.jpg" alt="Front Compound Perspective" loading="lazy" />
-          <div class="pcard-footer">
-          </div>
-          <div class="pcard-overlay"><p>Front approach showing boundary wall, upper structure, and building-to-site relationship.</p></div>
+          <div class="poverlay"><p>Front approach showing boundary wall, upper structure, and building-to-site relationship.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">11</span>
+        <div class="pfoot">
+          <span class="pnum">S03·E</span>
           <span class="ptitle">Front Compound Perspective</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="IMG-20250721-WA0006.jpg" alt="Wide Exterior Angle" loading="lazy" />
-          <div class="pcard-overlay"><p>Broad view of the two-level massing, roof framing, and unfinished landscape around the property.</p></div>
+          <div class="poverlay"><p>Broad view of the two-level massing, roof framing, and unfinished landscape around the property.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">12</span>
+        <div class="pfoot">
+          <span class="pnum">S03·F</span>
           <span class="ptitle">Wide Exterior Angle</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_02.jpg" alt="Front Structural View" loading="lazy" />
-          <div class="pcard-overlay"><p>Building shell with roof installed — front elevation showing transition from structural to enclosure phase.</p></div>
+          <div class="poverlay"><p>Building shell with roof installed — front elevation showing transition from structural to enclosure phase.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">13</span>
+        <div class="pfoot">
+          <span class="pnum">S03·G</span>
           <span class="ptitle">Front Structural View</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_03.jpg" alt="Main Building Elevation" loading="lazy" />
-          <div class="pcard-overlay"><p>Two-level structure from the front — roofline, block walls, and open bays awaiting finishing work.</p></div>
+          <div class="poverlay"><p>Two-level structure from the front — roofline, block walls, and open bays awaiting finishing work.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">14</span>
+        <div class="pfoot">
+          <span class="pnum">S03·H</span>
           <span class="ptitle">Main Building Elevation</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_10.jpg" alt="Side Perspective" loading="lazy" />
-          <div class="pcard-overlay"><p>Angled view showing massing and roof structure — a broader sense of scale and footprint.</p></div>
+          <div class="poverlay"><p>Angled view showing massing and roof structure — a broader sense of scale and footprint.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">15</span>
+        <div class="pfoot">
+          <span class="pnum">S03·I</span>
           <span class="ptitle">Side Perspective</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_01.jpg" alt="Interior Wall Construction" loading="lazy" />
-          <div class="pcard-overlay"><p>Masonry work inside — scaffolding used to raise upper wall sections and shape the internal layout.</p></div>
+          <div class="poverlay"><p>Masonry inside the structure — scaffolding used to raise upper wall sections and shape the internal layout.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">16</span>
+        <div class="pfoot">
+          <span class="pnum">S03·J</span>
           <span class="ptitle">Interior Wall Construction</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="20251010_113856.jpg" alt="Interior Stair and Upper Level" loading="lazy" />
-          <div class="pcard-overlay"><p>Wide interior view: staircase, upper gallery, exposed block walls, and roof framing at rough-construction stage.</p></div>
+          <div class="poverlay"><p>Wide interior view: staircase, upper gallery, exposed block walls, and roof framing at rough-construction stage.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">17</span>
+        <div class="pfoot">
+          <span class="pnum">S03·K</span>
           <span class="ptitle">Interior Stair &amp; Upper Level</span>
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="stage-connector">
+    <div class="conn-line"></div>
+    <div class="conn-arrow">Next phase</div>
+    <div class="conn-line"></div>
+  </div>
+
+  <!-- ── STAGE 04–06 ── -->
+  <div class="stage-block" data-s="46" id="ph-s46">
+    <div class="stage-label-row">
+      <div class="stage-badge s46-bg">● Stage 04–06</div>
+      <div class="stage-name">Finishing &amp; Gate Installation</div>
+      <div class="stage-count">4 photos</div>
+    </div>
+    <div class="pmason">
+
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="ghana_project_imagesphoto_09.jpg" alt="Balcony and Exterior Finish" loading="lazy" />
-          <div class="pcard-overlay"><p>Upper balcony rails and plastered exterior surfaces in place — visible finishing stages underway.</p></div>
+          <div class="poverlay"><p>Upper balcony rails and plastered exterior surfaces in place — visible finishing stages now underway.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">18</span>
+        <div class="pfoot">
+          <span class="pnum">S04·A</span>
           <span class="ptitle">Balcony &amp; Exterior Finish</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
+        <div class="pimg-wrap">
           <img src="20251212_160513(0).jpg" alt="Ground Floor Finishing" loading="lazy" />
-          <div class="pcard-overlay"><p>Plastered walls, structural columns, and stacked cement bags — active preparation for interior finishing.</p></div>
+          <div class="poverlay"><p>Plastered walls, structural columns, and stacked cement bags — active preparation for interior finishing.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">19</span>
+        <div class="pfoot">
+          <span class="pnum">S04·B</span>
           <span class="ptitle">Ground Floor Finishing</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
-          <img src="IMG-20260327-WA0010-1.jpg" alt="Modern Gate Closed" loading="lazy" />
-          <div class="pcard-overlay"><p>Completed compound gate — modern black metal with warm accent strips. Security and curb appeal combined.</p></div>
+        <div class="pimg-wrap">
+          <img src="IMG-20260327-WA0010-1.jpg" alt="Modern Gate — Closed" loading="lazy" />
+          <div class="poverlay"><p>Completed compound gate — modern black metal with warm accent strips. Security and curb appeal combined.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">20</span>
+        <div class="pfoot">
+          <span class="pnum">S06·A</span>
           <span class="ptitle">Modern Gate — Closed</span>
         </div>
       </div>
 
       <div class="pcard">
-        <div class="pcard-img-wrap">
-          <img src="IMG-20260327-WA0011.jpg" alt="Gate Open Position" loading="lazy" />
-          <div class="pcard-overlay"><p>Gate open — showcasing functionality, swing clearance, and improved accessibility of the main entrance.</p></div>
+        <div class="pimg-wrap">
+          <img src="IMG-20260327-WA0011.jpg" alt="Gate — Open Position" loading="lazy" />
+          <div class="poverlay"><p>Gate open — showcasing functionality, swing clearance, and improved accessibility of the main entrance.</p></div>
         </div>
-        <div class="pcard-footer">
-          <span class="pnum">21</span>
+        <div class="pfoot">
+          <span class="pnum">S06·B</span>
           <span class="ptitle">Gate — Open Position</span>
         </div>
       </div>
@@ -1066,27 +913,29 @@
     </div>
   </div>
 
-  <!-- ══ FOOTER ══ -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">Construction <span>Progress</span> Journal</div>
-      <div class="footer-chips">
-        <span class="footer-chip">Sharing</span>
-        <span class="footer-chip">Documentation</span>
-        <span class="footer-chip">Project updates</span>
-      </div>
-    </div>
-  </footer>
+</div><!-- /photo-wrap -->
 
-  <script>
-    const pills = document.querySelectorAll('.snav-pill');
-    pills.forEach(p => {
-      p.addEventListener('click', () => {
-        pills.forEach(x => x.classList.remove('active'));
-        p.classList.add('active');
-      });
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">Construction <span>Progress</span> Journal</div>
+    <div class="footer-chips">
+      <span class="fchip">Sharing</span>
+      <span class="fchip">Documentation</span>
+      <span class="fchip">Project updates</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const pills = document.querySelectorAll('.snp');
+  pills.forEach(p => {
+    p.addEventListener('click', () => {
+      pills.forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
